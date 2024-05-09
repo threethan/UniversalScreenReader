@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.threethan</groupId>
+    <artifactId>universalreader</artifactId>
+    <name>Universal Screen Reader</name>
+    <version>1.0.0</version>
+    <properties>
+        <project.mainClass>${project.groupId}.${project.artifactId}.UniversalReaderDesktop</project.mainClass>
+        <project.vendor>Ethan &amp; Alex</project.vendor>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.13</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.tess4j</groupId>
+            <artifactId>tess4j</artifactId>
+            <version>5.11.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>20.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>20.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>20.0.1</version>
+        </dependency>
+        <!-- The version of this package that others depend on has some minor issues -->
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>6.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Dansoftowner</groupId>
+            <artifactId>jSystemThemeDetector</artifactId>
+            <version>3.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.threethan</groupId>
+            <artifactId>jAdapterForNativeTTS</artifactId>
+            <version>0.13.X</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.threethan.FXThemes</groupId>
+            <artifactId>fxthemes</artifactId>
+            <version>f93e4cee15</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                    </execution>
+                </executions>
+                <configuration>
+                    <options>
+                        <option>--add-opens</option>
+                        <option>javafx.graphics/javafx.stage=com.pixelduke.fxthemes</option>
+                        <option>--add-opens</option>
+                        <option>javafx.graphics/com.sun.javafx.tk.quantum=com.pixelduke.fxthemes</option>
+                        <!-- Fixes always-light title bar which occurs when bypassing Application.launch() on macOS -->
+                        <option>-Dapple.awt.application.appearance=system</option>
+                        <!-- Fixes rendering of unified-style window on windows intel iGPU, BUT breaks macOS -->
+                        <!--                        <option>-Dprism.forceUploadingPainter=true</option>-->
+                    </options>
+                    <mainClass>${project.mainClass}</mainClass>
+                    <launcher>${project.artifactId}</launcher>
+
+                    <noManPages>true</noManPages>
+                    <stripDebug>true</stripDebug>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.7.1</version>
+                <configuration>
+                    <finalName>${project.artifactId}</finalName>
+                    <outputDirectory>${project.build.directory}/finalJar</outputDirectory>
+                    <archive>
+                        <manifest>
+                            <mainClass>${project.mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>20</source>
+                    <target>20</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                        <!-- Prevent automatic execution of jar goal -->
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>Win</id>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution><!-- Run our version calculation script -->
+                                <id>Version Calculation</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>jpackage</executable>
+                                    <arguments>
+                                        <argument>--input</argument><argument>${project.build.directory}/finalJar</argument>
+                                        <argument>--main-class</argument><argument>${project.mainClass}</argument>
+                                        <argument>--main-jar</argument><argument>${project.artifactId}.jar</argument>
+                                        <argument>--name</argument><argument>${project.name}</argument>
+                                        <argument>--vendor</argument><argument>${project.vendor}</argument>
+                                        <argument>--app-version</argument><argument>${project.version}</argument>
+                                        <argument>--java-options</argument>
+                                        <argument>"--add-opens javafx.graphics/javafx.stage=ALL-UNNAMED
+                                            --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED
+                                            -Dprism.forceUploadingPainter=true"</argument>
+                                        <argument>--icon</argument><argument>${project.basedir}/src/main/resources/assets/icon.ico</argument>
+                                        <argument>--dest</argument><argument>${project.build.directory}/releases</argument>
+                                        <argument>--type</argument><argument>msi</argument>
+                                        <argument>--win-menu</argument>
+                                        <argument>--win-per-user-install</argument>
+                                        <argument>--win-dir-chooser</argument>
+                                        <argument>--win-shortcut-prompt</argument>
+                                        <argument>--win-upgrade-uuid</argument><argument>a4e39a70-3c0c-4546-8517-4076d8bc3c43</argument>
+                                        <argument>--win-help-url</argument><argument>https://github.com/threethan/UniversalScreenReader</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>Linux</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                    <name>Linux</name>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution><!-- Run our version calculation script -->
+                                <id>Version Calculation</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>jpackage</executable>
+                                    <arguments>
+                                        <argument>--input</argument><argument>${project.build.directory}/finalJar</argument>
+                                        <argument>--main-class</argument><argument>${project.mainClass}</argument>
+                                        <argument>--main-jar</argument><argument>${project.artifactId}.jar</argument>
+                                        <argument>--name</argument><argument>${project.name}</argument>
+                                        <argument>--vendor</argument><argument>${project.vendor}</argument>
+                                        <argument>--app-version</argument><argument>${project.version}</argument>
+                                        <argument>--java-options</argument>
+                                        <argument>"--add-opens javafx.graphics/javafx.stage=ALL-UNNAMED
+                                            --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED"</argument>
+                                        <argument>--icon</argument><argument>${project.basedir}/src/main/resources/assets/icon.png</argument>
+                                        <argument>--dest</argument><argument>${project.build.directory}/releases</argument>
+                                        <argument>--linux-shortcut</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>macOS</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution><!-- Run our version calculation script -->
+                                <id>Version Calculation</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>jpackage</executable>
+                                    <arguments>
+                                        <argument>--input</argument><argument>${project.build.directory}/finalJar</argument>
+                                        <argument>--main-class</argument><argument>${project.mainClass}</argument>
+                                        <argument>--main-jar</argument><argument>${project.artifactId}.jar</argument>
+                                        <argument>--name</argument><argument>${project.name}</argument>
+                                        <argument>--vendor</argument><argument>${project.vendor}</argument>
+                                        <argument>--app-version</argument><argument>${project.version}</argument>
+                                        <argument>--java-options</argument>
+                                        <argument>"--add-opens javafx.graphics/javafx.stage=ALL-UNNAMED
+                                            --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED"
+                                            -Dapple.awt.application.appearance=system
+                                        </argument>
+                                        <argument>--icon</argument><argument>${project.basedir}/src/main/resources/assets/icon.icns</argument>
+                                        <argument>--dest</argument><argument>${project.build.directory}/releases</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

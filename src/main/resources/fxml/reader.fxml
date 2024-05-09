@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="200.0" prefWidth="377.0" xmlns:fx="http://javafx.com/fxml" fx:controller="org.threethan.universalreader.reader.Controller">
+
+    <StackPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="200.0" styleClass="noise-bg" VBox.vgrow="ALWAYS">
+        <ImageView fx:id="openedImageView" opacity="0.8" pickOnBounds="true" preserveRatio="true" smooth="false" StackPane.alignment="TOP_CENTER">
+            <Image url="@../assets/default_preview.png" />
+            <effect>
+                <BoxBlur height="15.0" iterations="2" width="15.0">
+               <input>
+                  <ColorAdjust brightness="0.3" />
+               </input></BoxBlur>
+            </effect>
+        </ImageView>
+        <TextArea fx:id="textArea" editable="false" minHeight="0.0" onKeyTyped="#onTextMaybeChanged" prefWidth="200.0" wrapText="true">
+            <font>
+                <Font size="16.0" />
+            </font>
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
+        </TextArea>
+        <ScrollPane fx:id="textHighlightArea" fitToWidth="true" hbarPolicy="NEVER" onMouseClicked="#onStopSpeakingPressed" prefWidth="377.0">
+            <TextFlow fx:id="textHighlightFlow" lineSpacing="3.7" maxWidth="-Infinity" minHeight="0.0" prefHeight="0.0">
+                <Text fx:id="textHighlightBefore" styleClass="text-inactive" />
+                <Text fx:id="textHighlightEarlier" styleClass="text-highlight" />
+                <Text fx:id="textHighlightCurrent" styleClass="text-highlighted" />
+                <Text fx:id="textHighlightLater" styleClass="text-highlight" />
+                <Text fx:id="textHighlightAfter" styleClass="text-inactive" />
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            <padding>
+               <Insets bottom="7.0" left="11.0" right="11.0" top="7.0" />
+            </padding>
+            </TextFlow>
+         <StackPane.margin>
+            <Insets bottom="1.0" />
+         </StackPane.margin>
+        </ScrollPane>
+        <ProgressIndicator fx:id="loadingIndicator" maxWidth="10000" prefHeight="120.0" prefWidth="400.0" visible="false" />
+<!--        <Label fx:id="loadingIndicator" maxWidth="10000" prefHeight="120.0" prefWidth="400.0" visible="false" text="Loading..." />-->
+        <AnchorPane fx:id="tutorial" maxHeight="-Infinity" maxWidth="-Infinity" StackPane.alignment="BOTTOM_LEFT">
+            <StackPane.margin>
+                <Insets bottom="5.0" left="17.0" />
+            </StackPane.margin>
+            <ImageView pickOnBounds="true" styleClass="light-dark-image">
+                <Image url="@../assets/tutorial_arrows.png" />
+            </ImageView>
+            <Label layoutX="27.0" layoutY="25.0" prefHeight="30.0" text="Speak text (after opening)">
+                <font>
+                    <Font name="System" size="14.0" />
+                </font>
+            </Label>
+            <Label layoutX="79.0" layoutY="50.0" prefHeight="30.0" text="Open an image from a file">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Label>
+            <Label layoutX="120.0" layoutY="75.0" prefHeight="30.0" text="Open copied image or text">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Label>
+        </AnchorPane>
+        <VBox.margin>
+            <Insets bottom="-1.0" top="-1.0" />
+        </VBox.margin>
+    </StackPane>
+    <HBox fx:id="toolBar" alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="377.0" spacing="10.0">
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+        </padding>
+        <StackPane prefHeight="150.0" prefWidth="200.0">
+            <Button fx:id="startSpeakingButton" alignment="CENTER" contentDisplay="CENTER" disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSpeakPressed" prefHeight="30.0" prefWidth="31.0">
+                <graphic>
+                    <SVGPath content="M15.5,16.8c0.2-0.2,0.4-0.4,0.6-0.4c0.3,0,0.5,0,0.8,0.2l1.6,1.2c0.2,0.2,0.4,0.4,0.4,0.7c0,0.3,0,0.5-0.2,0.8  c-0.2,0.2-0.4,0.4-0.6,0.4c-0.3,0-0.5,0-0.8-0.2l-1.6-1.2c-0.2-0.2-0.4-0.4-0.4-0.7S15.3,17,15.5,16.8z M18.5,5.2l-1.6,1.2  c-0.2,0.2-0.5,0.2-0.8,0.2c-0.3,0-0.5-0.2-0.6-0.4c-0.2-0.2-0.2-0.5-0.2-0.8c0-0.3,0.2-0.5,0.4-0.7l1.6-1.2c0.2-0.2,0.5-0.2,0.8-0.2  c0.3,0,0.5,0.2,0.7,0.4C18.9,4,19,4.3,18.9,4.5C18.9,4.8,18.8,5,18.5,5.2z M7.9,15H4c-0.3,0-0.5-0.1-0.7-0.3S3,14.3,3,14l0.1-5  c0-0.3,0.1-0.5,0.3-0.7C3.5,8.1,3.8,8,4.1,8l3.9,0l3.3-3.3c0.3-0.3,0.7-0.4,1.1-0.2c0.4,0.2,0.6,0.5,0.6,0.9l-0.1,12.1  c0,0.5-0.2,0.8-0.6,0.9c-0.4,0.2-0.8,0.1-1.1-0.2L7.9,15z  M19.8,12.7h-2.3c-0.6,0-1.1-0.5-1.1-1.1v-0.3c0-0.6,0.5-1.1,1.1-1.1h2.3c0.6,0,1.1,0.5,1.1,1.1v0.3  C20.8,12.2,20.4,12.7,19.8,12.7z" />
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Start Speaking (Ctrl+Space)" />
+                </tooltip>
+            </Button>
+            <Button fx:id="stopSpeakingButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onStopSpeakingPressed" prefHeight="30.0" prefWidth="31.0" visible="false">
+                <graphic>
+                    <SVGPath content="M5,16.8V8.2c0-0.6,0.2-1.1,0.6-1.5C6.1,6.2,6.6,6,7.2,6h8.7c0.6,0,1.1,0.2,1.5,0.6C17.8,7.1,18,7.6,18,8.2v8.7  c0,0.6-0.2,1.1-0.6,1.5c-0.4,0.4-0.9,0.6-1.5,0.6H7.2c-0.6,0-1.1-0.2-1.5-0.6C5.2,17.9,5,17.4,5,16.8z " />
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Stop Speaking (Ctrl+Space)" />
+                </tooltip>
+            </Button>
+        </StackPane>
+        <Separator orientation="VERTICAL" prefHeight="200.0" />
+        <Button layoutX="102.0" layoutY="21.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openImageFile" prefHeight="30.0" prefWidth="31.0">
+            <graphic>
+                <SVGPath content=" M9.7,17H5.5C5.2,17,5,16.3,5,16V4.7C5,4.4,5.4,4,5.6,4h7.1l-0.1,2.4c0,0.3,0.1,0.4,0.3,0.6c0.1,0.2,0.3,0.3,0.6,0.3H16V9  c0.6,0.1,1.5,0.7,2,0.9V7.4c0-0.7-0.1-0.8-0.5-1.2l-3.7-3.7C13.3,2,13.3,2,12.5,2H4.9C4.5,2,4.1,2.1,3.7,2.5S3,3.2,3,3.6v13.7  c0,0.4,0.4,0.9,0.7,1.2c0.3,0.3,0.8,0.4,1.2,0.4H11C10.6,18.4,10.1,17.6,9.7,17z M9.4,14.8c0-0.5,0.4-1.3,0.5-1.8  c-0.3,0-0.8,0.1-0.9-0.1L8.5,12c-0.3-0.6-1-0.6-1.3,0l-1,2.2c-0.1,0.2-0.1,0.3-0.1,0.5c0,0.3,0,0.6,0,1c0,0.2,0.1,0.3,0.3,0.3h2.4  h0.7C9.5,15.7,9.4,15.4,9.4,14.8z M18.1,11.9c-0.9-0.9-1.9-1.3-3-1.3s-2.2,0.5-3,1.3c-0.9,0.9-1.2,1.9-1.2,3s0.3,2.3,1.2,3c0.9,0.9,1.9,1.3,3,1.3  s2.3-0.4,3-1.3c0.9-0.9,1.3-1.9,1.3-3S19,12.7,18.1,11.9z M18.1,15.4H16v2c0,0.3-0.3,1-1,1c-0.6,0-1-0.6-1-1v-2c0,0,0,0.1-2,0.1  c-0.3,0-0.5-0.7,0.2-1.2l2.2-2.2c0.2-0.2,0.4-0.2,0.7-0.2s0.5,0.1,0.7,0.3l2.2,2.2C18.8,14.9,18.7,15.4,18.1,15.4z M14.1,9.5L14,9c-0.3-0.5-1-0.5-1.3,0l-2.3,2.5C11.4,10,12.2,9.5,14.1,9.5z  " translateX="1" translateY="1" />
+            </graphic>
+            <tooltip>
+                <Tooltip text="Open Image File (Ctrl+O)" />
+            </tooltip>
+        </Button>
+        <StackPane prefHeight="150.0" prefWidth="200.0">
+            <Button fx:id="openImageClipboardButton" disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openClipboard" prefHeight="30.0" prefWidth="31.0">
+                <graphic>
+                    <SVGPath content=" M9.4,17H6c-0.3,0-1-0.5-1-0.7v-11C5,5,5.3,4.8,5.6,4.8h1.6C7.5,5,8,5.2,8.4,5.2h4.1c0.5,0,1-0.2,1.2-0.4h1.9  c0.3,0,0.4,0.3,0.4,0.5v4.6c0.4,0.1,1.3,0.3,1.7,0.5c0.2,0.1,0.3-0.2,0.3-0.4V5c0-1-0.2-1.3-0.6-1.7C16.9,3,16.8,3,16.4,3h-1.9  c-0.2-0.9-1-1.5-1.9-1.5H8.4c-1,0-1.7,0.6-1.9,1.5H4.8C4.4,3,4,3.1,3.6,3.5S3,4.2,3,4.6V17c0,0.4,0.3,0.9,0.6,1.3S4.4,19,4.8,19h5  c0.2,0,0.3-0.6,0.3-0.8C9.9,17.7,9.5,17.5,9.4,17z M8.8,2.6h3.5c0.4,0,0.8,0.3,0.8,0.7S12.8,4,12.4,4H8.6C8.2,4,7.9,3.7,7.9,3.3  S8.4,2.6,8.8,2.6z M18.2,12.4c-0.9-0.9-1.9-1.3-3-1.3s-2.2,0.5-3,1.3c-0.9,0.9-1.3,1.9-1.3,3s0.4,2.3,1.3,3c0.9,0.9,1.7,1.6,2.8,1.6  s2.5-0.7,3.2-1.6c0.9-0.9,1.3-1.9,1.3-3S19.1,13.2,18.2,12.4z M18.1,16H16v2c0,0.3-0.3,1-1,1c-0.6,0-1-0.6-1-1v-2c0,0,0,0.1-2,0.1  c-0.3,0-0.4-0.6,0.3-1.1l2.2-2.2c0.2-0.2,0.3-0.3,0.6-0.3s0.5,0.1,0.7,0.3L18,15C18.8,15.5,18.7,16,18.1,16z M15.2,9.7L15.2,9.7  l-0.9-1.8c-0.3-0.5-1-0.5-1.3,0l-2.4,4.2C11.6,10.6,13.3,9.7,15.2,9.7z M8.9,12.5l-0.4-0.9c-0.3-0.6-1-0.6-1.3,0L6,14.3  c-0.3,0.5,0.1,1,0.7,1h2.2h0.6c0-0.9,0.3-1.7,0.7-2.5C9.8,13.1,9.2,13,8.9,12.5z " translateX="1" translateY="0.5" />
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Open Copied Image (Ctrl+Shift+V)" />
+                </tooltip>
+            </Button>
+            <Button fx:id="openTextClipboardButton" alignment="CENTER" disable="true" layoutX="10.0" layoutY="11.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openClipboard" prefHeight="30.0" prefWidth="31.0">
+                <graphic>
+                    <SVGPath content="M6 17c-.3 0-1-.5-1-.7v-11C5 5 5.3 4.8 5.6 4.8h1.6C7.5 5 8 5.2 8.4 5.2h4.1c.5 0 1-.2 1.2-.4h1.9c.3 0 .4.3.4.5v4.6c.4.1 1.3.3 1.7.5.2.1.3-.2.3-.4V5c0-1-.2-1.3-.6-1.7C16.9 3 16.8 3 16.4 3h-1.9c-.2-.9-1-1.5-1.9-1.5H8.4c-1 0-1.7.6-1.9 1.5H4.8C4.4 3 4 3.1 3.6 3.5 3.2 3.9 3 4.2 3 4.6V17c0 .4.3.9.6 1.3C3.9 18.7 4.4 19 4.8 19h5c.2 0 .3-.6.3-.8-.2-.5-.6-.7-.7-1.2H6zM8.8 2.6h3.5c.4 0 .8.3.8.7 0 .4-.3.7-.7.7H8.6C8.2 4 7.9 3.7 7.9 3.3 7.9 2.9 8.4 2.6 8.8 2.6zM18.2 12.4c-.9-.9-1.9-1.3-3-1.3-1.1 0-2.2.5-3 1.3-.9.9-1.3 1.9-1.3 3 0 1.1.4 2.3 1.3 3 .9.9 1.7 1.6 2.8 1.6s2.5-.7 3.2-1.6c.9-.9 1.3-1.9 1.3-3C19.5 14.3 19.1 13.2 18.2 12.4zM18.1 16H16v2c0 .3-.3 1-1 1-.6 0-1-.6-1-1v-2c0 0 0 .1-2 .1-.3 0-.4-.6.3-1.1l2.2-2.2c.2-.2.3-.3.6-.3.3 0 .5.1.7.3L18 15C18.8 15.5 18.7 16 18.1 16zM7.5 7c-.6 0-1 .4-1 1s.4 1 1 1h5.9c.6 0 1-.4 1-1s-.4-1-1-1H7.5zM13.3 10H7.5c-.6 0-1 .4-1 1s.4 1 1 1h3C11.2 11.1 12.2 10.4 13.3 10zM9.4 15c0-.7.2-1.4.5-2H7.5c-.6 0-1 .4-1 1s.4 1 1 1H9.4z" translateX="1" translateY="0.5" />
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Open Copied Text (Ctrl+Shift+V)" />
+                </tooltip>
+            </Button>
+        </StackPane>
+        <Separator fx:id="selectionBoxSeparator" layoutX="102.0" layoutY="20.0" orientation="VERTICAL" prefHeight="200.0" />
+        <ComboBox fx:id="voiceSelectionBox" maxWidth="-Infinity" onAction="#onVoiceSelectionBoxPressed" prefHeight="30.0" prefWidth="9999.0">
+            <tooltip>
+                <Tooltip text="Change Speaking Voice" />
+            </tooltip>
+        </ComboBox>
+        <ComboBox fx:id="speedSelectionBox" layoutX="141.0" layoutY="21.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onSpeedSelectionBoxPressed" prefHeight="30.0" prefWidth="85.0">
+            <tooltip>
+                <Tooltip text="Change Speaking Speed" />
+            </tooltip>
+        </ComboBox>
+        <Separator orientation="VERTICAL" prefHeight="200.0" />
+        <Button fx:id="settingsButton" alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="21.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSettingsButtonPressed" prefHeight="30.0" prefWidth="31.0">
+            <graphic>
+                <SVGPath content=" M19,9.5C19,9.3,19,9,18.9,8.9l-0.7-1.3c-0.2-0.2-0.4-0.4-0.6-0.5c-0.2-0.1-0.5,0-0.7,0.1L16,7.7   c-0.7-0.6-1.5-1.1-2.4-1.3V5.3c0-0.5-0.4-0.9-0.9-0.9h-1.6c-0.5,0-0.9,0.4-0.9,0.9v1.1C9.5,6.7,8.6,7.1,8,7.8L7.1,7.2   C6.6,7,6.1,7.1,5.9,7.6L5.1,8.9c-0.2,0.4-0.1,1,0.3,1.2l0.9,0.5c-0.1,0.5-0.2,0.9-0.2,1.4s0.1,0.9,0.2,1.4l-0.9,0.5   c-0.2,0.1-0.3,0.3-0.4,0.5C5,14.6,5,14.9,5.1,15l0.7,1.3c0.2,0.2,0.4,0.4,0.7,0.4c0.2,0,0.3,0,0.4-0.1l0.8-0.5   c0.7,0.7,1.5,1.1,2.4,1.4v1c0,0.5,0.4,0.9,0.9,0.9h1.6c0.5,0,0.9-0.4,0.9-0.9v-1c0.9-0.2,1.8-0.8,2.5-1.5l0.8,0.5   c0.2,0.1,0.2,0.1,0.4,0.1c0.1,0,0.2,0,0.2,0c0.2-0.1,0.4-0.2,0.5-0.4l0.7-1.3c0.4-0.4,0.2-1-0.2-1.1l-0.9-0.5   c0.1-0.4,0.2-0.8,0.2-1.2c0-0.5-0.1-1-0.2-1.5l0.9-0.6C18.7,9.9,18.9,9.7,19,9.5z M12,16c-2.3,0-4.1-1.8-4.1-4.1S9.7,7.8,12,7.8   s4.1,1.8,4.1,4.1S14.3,16,12,16z M12,10.5c-0.7,0-1.4,0.7-1.4,1.4s0.7,1.4,1.4,1.4s1.4-0.7,1.4-1.4S12.7,10.5,12,10.5z" translateX="-0.5" />
+            </graphic>
+            <tooltip>
+                <Tooltip text="Settings" />
+            </tooltip>
+        </Button>
+      <VBox.margin>
+         <Insets />
+      </VBox.margin>
+    </HBox>
+</VBox>

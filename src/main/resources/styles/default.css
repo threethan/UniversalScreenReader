@@ -1,0 +1,179 @@
+.root {
+    -fx-background-color: transparent;
+    -fx-base: transparent;
+}
+
+* {
+    -fx-font-smoothing-type: lcd;
+    -fx-text-fill: #000;
+}
+
+.button, .combo-box, .list-view, .check-box > .box, .scroll-bar *, .slider .track, * .thumb, .context-menu .menu-item, .text-field {
+    -fx-background-color: #FFFFFF80;
+    -fx-border-color: #0002;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-border-insets: -1 -1 -2 -1;
+    -fx-text-fill: #000;
+}
+.button:focused, .list-view .list-cell:focused, .context-menu .menu-item:focused, .combo-box:focused, .check-box:focused > .box, *:focused .thumb, .text-field:focused {
+    -fx-background-color: #FFFFFF;
+}
+.button:hover, .list-view .list-cell:hover, .context-menu .menu-item:hover, .combo-box:hover, .check-box:hover > .box, *:hover .thumb, .text-field:hover {
+    -fx-background-color: #EEE;
+}
+.context-menu .menu-item:hover {
+    -fx-background-color: #FFF8;
+}
+.button:pressed,  .list-view .list-cell:pressed, .context-menu .menu-item:pressed, .combo-box:pressed, .check-box:pressed > .box, *:pressed .thumb, .thumb:pressed {
+    -fx-background-color: #FFF;
+}
+.list-view .list-cell:selected {
+    -fx-border-color: #FFF;
+    -fx-background-color: #FFF;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+.scroll-bar {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-pref-width: 13;
+}
+
+.scroll-bar * {
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+    /*-fx-pref-width: 12;*/
+    /*-fx-pref-height: 8;*/
+}
+.scroll-bar * **, .scroll-bar .thumb, .progress-indicator * * *  {
+    -fx-border-color: transparent;
+    -fx-background-color: #0004;
+}
+.progress-indicator {
+    -fx-background-color: transparent;
+}
+
+.text-area, .text-area .content {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #000;
+}
+
+.scroll-pane {
+    -fx-border-style: none;
+    -fx-background-color: #FFF5;
+    -fx-background-insets: 0 -5;
+}
+
+.check-box {
+    -fx-text-fill: #000;
+}
+.check-box > .box {
+    -fx-background-insets: -1;
+    -fx-border-insets: -1.5;
+    -fx-border-color: #0003;
+}
+
+.list-view {
+    -fx-background-color: #CCC;
+    -fx-background-insets: 2 0 2 0;
+    -fx-border-insets: 2 0 3 0;
+    -fx-translate-y: 2px;
+}
+.list-view .list-cell, .context-menu .menu-item {
+    -fx-translate-y: 0.5;
+    -fx-background-radius: 2;
+    -fx-pref-height: 30;
+    -fx-text-fill: #000;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.context-menu .menu-item, .context-menu .menu-item *, .context-menu .menu-item:hover * {
+    -fx-text-fill: #000;
+    -fx-label-padding: 3;
+}
+.arrow, .check {
+    -fx-background-color: #111;
+}
+
+.combo-box .list-cell {
+    -fx-padding: 0 -23 0 10;
+    -fx-background-color: transparent;
+}
+.combo-box .list-view .list-cell {
+    -fx-padding: 0 -10 0 10;
+}
+
+.menu, .context-menu {
+    -fx-padding: 2;
+    -fx-background-color: #DDD;
+    -fx-border-color: #0003;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+.separator *.line {
+    -fx-background-color: #0002;
+    -fx-pref-height: 1;
+    -fx-pref-width: 1;
+    -fx-border-width: 5; /* for drag area */
+    -fx-border-color: #88888801;
+    -fx-border-insets: -5;
+}
+.menu .context-menu {
+    -fx-translate-y: -3;
+}
+.context-menu .menu-item .label {
+    -fx-text-fill: #000;
+    -fx-border-style: none;
+}
+.context-menu .menu-item .label, .context-menu .menu-item {
+    -fx-text-fill: #000;
+    -fx-border-style: none;
+}
+.check-box:selected > .box > .mark {
+    -fx-background-color: #000;
+}
+.menu-item * * * * * * {
+    -fx-background-color: #000;
+}
+.tooltip{
+    -fx-background-color: #eee;
+    -fx-border-color: #8888;
+    -fx-border-width: 0.7;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-padding: 4 7;
+    -fx-translate-x: -8;
+    -fx-translate-y: 10;
+    -fx-font-size: 12;
+    -fx-font-weight: 600;
+    -fx-text-fill: #000;
+    -fx-effect: dropshadow(three-pass-box, #0002, 8, -8, 0, 1);
+}
+.label {
+    -fx-text-fill: #000;
+}
+
+.noise-bg, .button, .combo-box, .context-menu, .menu, .list-view, .tooltip {
+    -fx-background-image: url("../assets/noise.png");
+    -fx-background-repeat: repeat;
+    -fx-background-size: 256;
+}
+TextFlow * {
+    -fx-font-smoothing-type: lcd;
+    -fx-font-size: 16;
+}
+.text-highlighted {
+    -fx-opacity: 1.0;
+    -fx-stroke: #000;
+    -fx-stroke-width: 0.5;
+}
+.text-inactive {
+    -fx-opacity: 0.25;
+}
+
+.text-highlight {
+-fx-opacity: 0.85;
+}

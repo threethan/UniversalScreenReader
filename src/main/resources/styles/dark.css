@@ -1,0 +1,99 @@
+* {
+    -fx-text-fill: #ffffff;
+    -fx-highlight-fill: #0490FFBF;
+}
+.label {
+    -fx-text-fill: #FFF;
+}
+.light-dark-image {
+    -fx-effect: innershadow(one-pass-box, white, 0, 0, 0, 1000);
+}
+.check-box {
+    -fx-text-fill: #FFF;
+}
+.button, .list-view, .combo-box, .check-box > .box, .slider .track, .slider .thumb, .text-field {
+    -fx-background-color: #00000050;
+    -fx-border-color: #AAA4;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #ffffff;
+}
+.button:focused, .list-view .list-cell:focused, .combo-box:focused, .check-box:focused > .box, *:focused .thumb, .text-field:focused {
+    -fx-background-color: #333                  4;
+}
+.context-menu .menu-item:focused {
+    -fx-background-color: #FFF1;
+}
+
+
+.button:hover, .list-view .list-cell:hover, .combo-box:hover, .check-box:hover > .box, *:hover .thumb, .text-field:hover {
+    -fx-background-color: #3b3b3b50;
+}
+.list-view .list-cell:selected {
+    -fx-background-color: #333;
+    -fx-border-color: #444;
+}
+.button:pressed, .list-view .list-cell:pressed, .context-menu .menu-item:pressed, .combo-box:pressed, .check-box:pressed > .box, *:pressed .thumb, .thumb:pressed {
+    -fx-background-color: rgba(86, 86, 86, 0.81);
+}
+
+.check-box:selected > .box > .mark {
+    -fx-background-color: #ffffff;
+}
+
+.scroll-pane {
+    -fx-background-color: #1119;
+}
+.menu-item * * * * * * {
+    -fx-background-color: #FFF;
+}
+.progress-indicator * * * {
+    -fx-background-color: #ffffff;
+}
+.progress-indicator {
+    -fx-background-color: transparent;
+}
+
+.list-view {
+    -fx-background-color: #222;
+}
+.list-view .list-cell {
+    -fx-text-fill: #FFF;
+}
+.arrow, .check {
+    -fx-background-color: #EEE;
+}
+.menu, .context-menu {
+    -fx-background-color: #222;
+    -fx-border-color: #CCC4;
+}
+.separator *.line {
+    -fx-background-color: #6668;
+}
+
+.context-menu .menu-item, .context-menu .menu-item .label, .context-menu .menu-item .label {
+    -fx-text-fill: #FFF;
+}
+
+.scroll-bar * **, .scroll-bar .thumb, .progress-indicator * * *  {
+    -fx-background-color: #FFF3;
+}
+
+SVGPath {
+    -fx-fill: #FFFC;
+}
+
+.tooltip {
+    -fx-background-color: #262626;
+    -fx-text-fill: #FFF;
+}
+.text-area, .text-area .content {
+    -fx-text-fill: #FFF;
+}
+TextFlow * {
+    -fx-fill: #FFF;
+}
+.text-highlighted {
+    -fx-stroke: #FFF;
+    -fx-stroke-width: 0.7;
+}
