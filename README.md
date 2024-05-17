@@ -50,6 +50,6 @@ Alternatively, you can download models [here](https://github.com/tesseract-ocr/t
 and place them in a folder named `TesseractData` in the path from which the jar is executed.
 
 ## More Info
-For an in-depth explanation of all functions and shortcuts, check [FUNCTIONS.md](https://github.com/threethan/UniversalScreenReader/blob/main/FUNCTIONS.md)
+For an in-depth explanation of all controls and shortcuts, check [FUNCTIONS.md](https://github.com/threethan/UniversalScreenReader/blob/main/FUNCTIONS.md)
 
-For documentation on building or running from source, check BUILD.md](https://github.com/threethan/UniversalScreenReader/blob/main/BUILD.md)
+For documentation on building or running from source, check [BUILD.md](https://github.com/threethan/UniversalScreenReader/blob/main/BUILD.md)
